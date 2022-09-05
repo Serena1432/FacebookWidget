@@ -1,5 +1,7 @@
 # FacebookWidget
 
+**NOTICE: Using this application can sometimes lead to your Facebook account's restriction or suspension, so make sure to use a secondary account cookies if possible or don't use any cookies at all.**
+
 **FacebookWidget** is a widget tool that shows a small widget with the active status and unread messages of a Facebook user on the taskbar.
 
 ![Screenshot](./ScreenshotSample.png)<br>
