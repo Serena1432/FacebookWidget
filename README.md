@@ -1,6 +1,6 @@
 # FacebookWidget
 
-**FacebookWidget** is a widget tool that shows a small widget with the active status and unread messages of a Facebook on the taskbar.
+**FacebookWidget** is a widget tool that shows a small widget with the active status and unread messages of a Facebook user on the taskbar.
 
 ![Screenshot](./ScreenshotSample.png)<br>
 *[The widget is shown on the bottom left of the image (a.k.a the left of the taskbar).]*
