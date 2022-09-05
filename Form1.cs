@@ -37,7 +37,7 @@ namespace FacebookWidget
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
-        string id, cookie, position, xOffset, yOffset;
+        string id, cookie, position, xOffset, yOffset, response;
         int phase = 1;
         bool retrievalError = false;
 
@@ -91,6 +91,7 @@ namespace FacebookWidget
                     Stream data = client.OpenRead(String.IsNullOrEmpty(cookie) ? ("https://mbasic.facebook.com/" + id) : ("https://mbasic.facebook.com/" + id + "?v=timeline"));
                     StreamReader reader = new StreamReader(data);
                     string s = reader.ReadToEnd();
+                    response = s;
                     var html = new HtmlAgilityPack.HtmlDocument();
                     html.LoadHtml(s);
                     if (!String.IsNullOrEmpty(cookie))
@@ -138,6 +139,7 @@ namespace FacebookWidget
                     StreamReader reader = new StreamReader(data);
                     string s = reader.ReadToEnd();
                     var html = new HtmlAgilityPack.HtmlDocument();
+                    response = s;
                     html.LoadHtml(s);
                     var title = html.DocumentNode.SelectSingleNode("//title").InnerText;
                     if (title.Contains("(") && title.Contains(")"))
@@ -153,7 +155,8 @@ namespace FacebookWidget
             }
             catch (Exception ex)
             {
-                if (retrievalError == false) MessageBox.Show("Cannot retrieve the user data!\nPlease check again the Facebook User ID" + (String.IsNullOrEmpty(cookie) ? ", or provide a Facebook cookie for a better retrieving" : ", or provide another cookie and try again.") + ".\nIf you have checked it but the error still occurs, you can contact the developer at GitHub.com/NozakiYuu.\n\nError information:\n" + ex.ToString(), "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                File.WriteAllText(Application.StartupPath + "\\WidgetLog.log", "Response:\n" + response + "\nErrorInformation:\n" + ex.ToString());
+                if (retrievalError == false) MessageBox.Show("Cannot retrieve the user data!\nPlease check again the Facebook User ID" + (String.IsNullOrEmpty(cookie) ? ", or provide a Facebook cookie for a better retrieving" : ", or provide another cookie and try again.") + ".\nIf you have checked it but the error still occurs, you can contact the developer at GitHub.com/NozakiYuu.\n\nError information:\n" + ex.ToString() + "\n\nTo view more information, open the WidgetLog.log file in the same folder as the executable.", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 retrievalError = true;
                 label2.Text = "Cannot retrieve data!";
             }
@@ -264,6 +267,13 @@ namespace FacebookWidget
         private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.Focus();
+            this.BringToFront();
         }
     }
 }

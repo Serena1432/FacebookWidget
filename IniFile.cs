@@ -23,7 +23,7 @@ namespace FacebookWidget
 
         public string Read(string Key, string Section = null)
         {
-            var RetVal = new StringBuilder(255);
+            var RetVal = new StringBuilder(65536);
             GetPrivateProfileString(Section ?? EXE, Key, "", RetVal, 255, Path);
             return RetVal.ToString();
         }
