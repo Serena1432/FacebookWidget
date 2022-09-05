@@ -75,8 +75,7 @@ namespace FacebookWidget
             try
             {
                 WebClient client = new WebClient();
-                client.Headers.Add("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
-                client.Headers.Add("accept-language", "en,vi-VN;q=0.9,vi;q=0.8,fr-FR;q=0.7,fr;q=0.6,en-US;q=0.5");
+                client.Headers.Add("accept-language", "en;q=0.9,vi;q=0.8,fr-FR;q=0.7,fr;q=0.6,en-US;q=0.5");
                 client.Headers.Add("cache-control", "max-age=0");
                 client.Headers.Add("cookie", cookie);
                 client.Headers.Add("sec-ch-ua", "\"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"104\"");
@@ -107,6 +106,7 @@ namespace FacebookWidget
                         }
                         pictureBox1.Load(avatar);
                         var name = html.DocumentNode.SelectSingleNode("//span/div/span/strong").InnerText;
+                        if (name.Contains("(")) name = name.Substring(0, name.IndexOf('(') - 1);
                         if (name.IndexOf('(') - 1 > 0) label1.Text = name.Substring(0, name.IndexOf('(') - 1);
                         else label1.Text = name;
                         var status = "Online";
@@ -125,8 +125,7 @@ namespace FacebookWidget
                         var avatar = html.DocumentNode.SelectSingleNode("//img[contains(@alt, 'profile')]").Attributes["src"].Value.Replace("&amp;", "&");
                         pictureBox1.Load(avatar);
                         var name = html.DocumentNode.SelectSingleNode("//div[@id='cover-name-root']").InnerText;
-                        if (name.IndexOf('(') - 1 > 0) label1.Text = name.Substring(0, name.IndexOf('(') - 1);
-                        else label1.Text = name;
+                        label1.Text = name;
                         label2.Text = "Active status unavailable";
                     }
                     data.Close();
@@ -152,9 +151,9 @@ namespace FacebookWidget
                     phase = 1;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                if (retrievalError == false) MessageBox.Show("Cannot retrieve the user data!\nPlease check again the Facebook User ID" + (String.IsNullOrEmpty(cookie) ? ", or provide a Facebook cookie for a better retrieving" : ", or provide another cookie and try again.") + ".\nIf you have checked it but the error still occurs, you can contact the developer at GitHub.com/NozakiYuu.", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (retrievalError == false) MessageBox.Show("Cannot retrieve the user data!\nPlease check again the Facebook User ID" + (String.IsNullOrEmpty(cookie) ? ", or provide a Facebook cookie for a better retrieving" : ", or provide another cookie and try again.") + ".\nIf you have checked it but the error still occurs, you can contact the developer at GitHub.com/NozakiYuu.\n\nError information:\n" + ex.ToString(), "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 retrievalError = true;
                 label2.Text = "Cannot retrieve data!";
             }
