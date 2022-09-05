@@ -22,6 +22,16 @@ namespace FacebookWidget
             InitializeComponent();
         }
 
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var Params = base.CreateParams;
+                Params.ExStyle |= 0x80;
+                return Params;
+            }
+        }
+
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         private static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
@@ -146,6 +156,8 @@ namespace FacebookWidget
                     {
                         var p = title.Substring(title.IndexOf("(") + 1);
                         label2.Text = p.Substring(0, p.IndexOf(")")) + " unread message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "");
+                        notifyIcon1.BalloonTipText = label1.Text + " send you " + p.Substring(0, p.IndexOf(")")) + " message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "") + ".";
+                        notifyIcon1.ShowBalloonTip(15000);
                     }
                     else label2.Text = "0 unread messages";
                     data.Close();
@@ -248,6 +260,7 @@ namespace FacebookWidget
             tableLayoutPanel1.ColumnStyles[0].Width = pictureBox1.Width + 8;
             this.WindowState = FormWindowState.Normal;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            notifyIcon1.ShowBalloonTip(5000);
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -264,16 +277,97 @@ namespace FacebookWidget
             GetInformation();
         }
 
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void timer2_Tick(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
             this.Focus();
             this.BringToFront();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+        }
+
+        void Hover()
+        {
+            this.BackColor = Color.Gray;
+        }
+
+        void Leave()
+        {
+            var Config = new IniFile(Application.StartupPath + "\\Config.ini");
+            this.BackColor = Color.FromName(Config.Read("TransparencyKey", "Config"));
+        }
+
+        private void pictureBox1_MouseHover(object sender, EventArgs e)
+        {
+            Hover();
+        }
+
+        private void pictureBox1_MouseLeave(object sender, EventArgs e)
+        {
+            Leave();
+        }
+
+        private void tableLayoutPanel1_MouseHover(object sender, EventArgs e)
+        {
+            Hover();
+        }
+
+        private void tableLayoutPanel1_MouseLeave(object sender, EventArgs e)
+        {
+            Leave();
+        }
+
+        private void tableLayoutPanel2_MouseHover(object sender, EventArgs e)
+        {
+            Hover();
+        }
+
+        private void tableLayoutPanel2_MouseLeave(object sender, EventArgs e)
+        {
+            Leave();
+        }
+
+        private void label1_MouseHover(object sender, EventArgs e)
+        {
+            Hover();
+        }
+
+        private void label1_MouseLeave(object sender, EventArgs e)
+        {
+            Leave();
+        }
+
+        private void label2_MouseHover(object sender, EventArgs e)
+        {
+            Hover();
+        }
+
+        private void label2_MouseLeave(object sender, EventArgs e)
+        {
+            Leave();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+        }
+
+        private void tableLayoutPanel1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+        }
+
+        private void tableLayoutPanel2_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
         }
     }
 }
