@@ -1,6 +1,8 @@
 # FacebookWidget
 
-**FacebookWidget** is a widget tool that shows a small widget with the active status and unread messages of a Facebook on the taskbar.
+**NOTICE: Using this application can sometimes lead to your Facebook account's restriction or suspension, so make sure to use a secondary account cookies if possible or don't use any cookies at all.**
+
+**FacebookWidget** is a widget tool that shows a small widget with the active status and unread messages of a Facebook user on the taskbar.
 
 ![Screenshot](./ScreenshotSample.png)<br>
 *[The widget is shown on the bottom left of the image (a.k.a the left of the taskbar).]*
@@ -13,7 +15,7 @@
 * [HTMLAgilityPack](https://www.nuget.org/packages/HtmlAgilityPack) version 1.11.45
 
 ## How to use?
-* **Step 1:** Build the application from the source code, or download the pre-built application from [the Release section](./releases).
+* **Step 1:** Build the application from the source code, or download the pre-built application from [the Releases section](https://github.com/NozakiYuu/FacebookWidget/releases).
 * **Step 2:** Create a file called `Config.ini` in the same folder as the executable file (`FacebookWidget.exe`) like this example, with the parameters explained on the table below the code:
 
 ```ini
@@ -83,7 +85,7 @@ If you don't trust the pre-built application, you can manually build it.
 ## Known bugs
 
 * Sometimes it maybe unable to retrieve the data even you have provided the correct cookies. This can be Facebook's fault because the structure of the profile page is different for each user, or your account may be temporarily restricted because of spamming. You can try again after some hours or report that bug to this application's developer.
-* The widget disappears when focusing on taskbar or clicking the `Show Desktop` button. This is Windows' restriction and I will find a way to fix it later.
+* The widget disappears when focusing on taskbar or clicking the `Show Desktop` button. This is Windows' restriction and I will find a way to fix it later. If you encounter this error, just press the `Alt + Tab` combination and click on the widget window.
 
 ## Contacting the developer
 
