@@ -15,7 +15,7 @@
 * [HTMLAgilityPack](https://www.nuget.org/packages/HtmlAgilityPack) version 1.11.45
 
 ## How to use?
-* **Step 1:** Build the application from the source code, or download the pre-built application from [the Releases section](/releases).
+* **Step 1:** Build the application from the source code, or download the pre-built application from [the Releases section](https://github.com/NozakiYuu/FacebookWidget/releases).
 * **Step 2:** Create a file called `Config.ini` in the same folder as the executable file (`FacebookWidget.exe`) like this example, with the parameters explained on the table below the code:
 
 ```ini
