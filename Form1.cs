@@ -47,7 +47,7 @@ namespace FacebookWidget
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
-        string id, cookie, position, xOffset, yOffset, response;
+        string id, cookie, position, xOffset, yOffset, response, msgNum = "0";
         int phase = 1;
         bool retrievalError = false;
 
@@ -113,13 +113,26 @@ namespace FacebookWidget
                         }
                         catch
                         {
-                            avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/a/div/div/img").Attributes["src"].Value.Replace("&amp;", "&");
+                            try
+                            {
+                                avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/a/div/div/img").Attributes["src"].Value.Replace("&amp;", "&");
+                            }
+                            catch
+                            {
+                                avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/div/a/img").Attributes["src"].Value.Replace("&amp;", "&");
+                            }
                         }
                         pictureBox1.Load(avatar);
                         var name = html.DocumentNode.SelectSingleNode("//span/div/span/strong").InnerText;
                         if (name.Contains("(")) name = name.Substring(0, name.IndexOf('(') - 1);
                         if (name.IndexOf('(') - 1 > 0) label1.Text = name.Substring(0, name.IndexOf('(') - 1);
                         else label1.Text = name;
+                        try
+                        {
+                            var x = html.DocumentNode.SelectSingleNode("//a[contains(@href, 'photos/change/profile_picture')]").InnerText;
+                            label1.Text = name + " (You)";
+                        }
+                        catch { }
                         var status = "Online";
                         try
                         {
@@ -145,21 +158,45 @@ namespace FacebookWidget
                 }
                 else if (phase == 2)
                 {
-                    Stream data = client.OpenRead("https://mbasic.facebook.com/messages/read/?fbid=" + id);
+                    Stream data = client.OpenRead("https://mbasic.facebook.com/home.php");
                     StreamReader reader = new StreamReader(data);
                     string s = reader.ReadToEnd();
                     var html = new HtmlAgilityPack.HtmlDocument();
                     response = s;
                     html.LoadHtml(s);
-                    var title = html.DocumentNode.SelectSingleNode("//title").InnerText;
-                    if (title.Contains("(") && title.Contains(")"))
+                    var text = "";
+                    try
                     {
-                        var p = title.Substring(title.IndexOf("(") + 1);
-                        label2.Text = p.Substring(0, p.IndexOf(")")) + " unread message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "");
-                        notifyIcon1.BalloonTipText = label1.Text + " send you " + p.Substring(0, p.IndexOf(")")) + " message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "") + ".";
-                        notifyIcon1.ShowBalloonTip(15000);
+                        text = html.DocumentNode.SelectSingleNode("//nav/a/strong[contains(text(), 'Messages')]//span").InnerText;
+                        if (text.Contains("(") && text.Contains(")"))
+                        {
+                            text = html.DocumentNode.SelectSingleNode("//nav/a[contains(@href, '" + id + "') and contains(@aria-label, 'new message')]").InnerText;
+                            if (text.Contains("(") && text.Contains(")"))
+                            {
+                                try
+                                {
+                                    var p = text.Substring(text.IndexOf("(") + 1);
+                                    label2.Text = p.Substring(0, p.IndexOf(")")) + " unread message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "");
+                                    if (p.Substring(0, p.IndexOf(")")) != "0" && p.Substring(0, p.IndexOf(")")) != msgNum)
+                                    {
+                                        notifyIcon1.BalloonTipText = label1.Text + " send you " + p.Substring(0, p.IndexOf(")")) + " message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "") + ".";
+                                        notifyIcon1.ShowBalloonTip(15000);
+                                    }
+                                    msgNum = p.Substring(0, p.IndexOf(")"));
+                                }
+                                catch
+                                {
+                                    label2.Text = "0 unread messages";
+                                }
+                            }
+                            else label2.Text = "0 unread messages";
+                        }
+                        else label2.Text = "0 unread messages";
                     }
-                    else label2.Text = "0 unread messages";
+                    catch
+                    {
+                        label2.Text = "0 unread messages";
+                    }
                     data.Close();
                     reader.Close();
                     phase = 1;
