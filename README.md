@@ -73,6 +73,14 @@ sb=XXXXXXXXXXXXXXXXXX; datr=XXXXXXXXXXXXXXXXXXXX; dpr=XXXXXXXXXXXXXXXX; wd=XXXXX
 
 * **Step 6:** Paste it to the `Cookie` parameter of the config file, and save the file.
 
+## Tips
+
+### Make this software auto-startup
+
+* **Step 1:** Go to this folder by using the Run window or File Explorer: `%appdata%\Microsoft\Windows\Start Menu\Programs\Startup`.
+* **Step 2:** Create a new shortcut and point the location to the `FacebookWidget.exe` file.
+* **Step 3:** Save this shortcut and done!
+
 ## Building
 
 If you don't trust the pre-built application, you can manually build it.
