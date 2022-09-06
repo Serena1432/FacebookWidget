@@ -86,6 +86,7 @@ If you don't trust the pre-built application, you can manually build it.
 
 * Sometimes it maybe unable to retrieve the data even you have provided the correct cookies. This can be Facebook's fault because the structure of the profile page is different for each user, or your account may be temporarily restricted because of spamming. You can try again after some hours or report that bug to this application's developer.
 * ~~The widget disappears when focusing on taskbar or clicking the `Show Desktop` button. This is Windows' restriction and I will find a way to fix it later. If you encounter this error, just press the `Alt + Tab` combination and click on the widget window.~~ Fixed in version 1.1!
+* The unread messages count is 0 in all cases, and it will send a *Seen* status to that person without notificating anything.
 
 ## Contacting the developer
 
