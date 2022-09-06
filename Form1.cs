@@ -119,7 +119,14 @@ namespace FacebookWidget
                             }
                             catch
                             {
-                                avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/div/a/img").Attributes["src"].Value.Replace("&amp;", "&");
+                                try
+                                {
+                                    avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/div/a/img").Attributes["src"].Value.Replace("&amp;", "&");
+                                }
+                                catch
+                                {
+                                    avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/div/img").Attributes["src"].Value.Replace("&amp;", "&");
+                                }
                             }
                         }
                         pictureBox1.Load(avatar);
@@ -179,7 +186,7 @@ namespace FacebookWidget
                                     label2.Text = p.Substring(0, p.IndexOf(")")) + " unread message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "");
                                     if (p.Substring(0, p.IndexOf(")")) != "0" && p.Substring(0, p.IndexOf(")")) != msgNum)
                                     {
-                                        notifyIcon1.BalloonTipText = label1.Text + " send you " + p.Substring(0, p.IndexOf(")")) + " message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "") + ".";
+                                        notifyIcon1.BalloonTipText = (label1.Text.Contains(" (You)") ? "You have " : (label1.Text + " send you ")) + p.Substring(0, p.IndexOf(")")) + " new message" + (p.Substring(0, p.IndexOf(")")) != "1" ? "s" : "") + ".";
                                         notifyIcon1.ShowBalloonTip(15000);
                                     }
                                     msgNum = p.Substring(0, p.IndexOf(")"));
