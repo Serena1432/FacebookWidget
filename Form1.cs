@@ -213,91 +213,101 @@ namespace FacebookWidget
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
-            if (File.Exists(Application.StartupPath + "\\Config.ini"))
+            if (System.Diagnostics.Process.GetProcessesByName("FacebookWidget").Length > 1)
             {
-                var Config = new IniFile(Application.StartupPath + "\\Config.ini");
-                id = Config.Read("ID", "Config");
-                cookie = Config.Read("Cookie", "Config");
-                this.Size = new Size(Convert.ToInt32(Config.Read("Width", "Config")), Convert.ToInt32(Config.Read("Height", "Config")));
-                position = Config.Read("Position", "Config");
-                xOffset = Config.Read("XOffset", "Config");
-                yOffset = Config.Read("YOffset", "Config");
-                int xOs = Convert.ToInt32(xOffset), yOs = Convert.ToInt32(yOffset);
-                int resWidth = Screen.PrimaryScreen.Bounds.Width, resHeight = Screen.PrimaryScreen.Bounds.Height;
-                switch (position)
-                {
-                    case "UpperLeft":
-                        this.Left = xOs;
-                        this.Top = yOs;
-                        break;
-                    case "UpperRight":
-                        this.Left = resWidth - this.Size.Width - xOs;
-                        this.Top = yOs;
-                        break;
-                    case "LowerLeft":
-                        this.Left = xOs;
-                        this.Top = resHeight - this.Size.Height - yOs;
-                        break;
-                    case "LowerRight":
-                        this.Left = resWidth - this.Size.Width - xOs;
-                        this.Top = resHeight - this.Size.Height - yOs;
-                        break;
-                    default:
-                        MessageBox.Show("Unknown position type '" + position + "', the supported positions are 'UpperLeft', 'UpperRight', 'LowerLeft' or 'LowerRight'", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Application.Exit();
-                        break;
-                }
-                try
-                {
-                    this.Font = new System.Drawing.Font(Config.Read("FontName", "Config"), Convert.ToSingle(Convert.ToInt32(Config.Read("FontSize", "Config"))));
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot load the given font with the font name '" + Config.Read("FontName", "Config") + "' and size " + Config.Read("FontSize", "Config"), "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                try
-                {
-                    label1.ForeColor = Color.FromName(Config.Read("NameColor", "Config"));
-                }
-                catch
-                {
-                    MessageBox.Show("Unsupported color name '" + Config.Read("NameColor", "Config") + "' in NameColor", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                try
-                {
-                    label2.ForeColor = Color.FromName(Config.Read("StatusColor", "Config"));
-                }
-                catch
-                {
-                    MessageBox.Show("Unsupported color name '" + Config.Read("StatusColor", "Config") + "' in StatusColor", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
-                try
-                {
-                    this.BackColor = Color.FromName(Config.Read("TransparencyKey", "Config"));
-                    this.TransparencyKey = Color.FromName(Config.Read("TransparencyKey", "Config"));
-                }
-                catch
-                {
-                    MessageBox.Show("Unsupported color name '" + Config.Read("TransparencyKey", "Config") + "' in TransparencyKey", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Application.Exit();
-                }
+                timer1.Enabled = false;
+                timer2.Enabled = false;
+                MessageBox.Show("Only 1 instance of FacebookWidget is allowed. End the currently running process first and try again.", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
             }
             else
             {
-                MessageBox.Show("Cannot find the config file!", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
+                SystemEvents.DisplaySettingsChanged += new EventHandler(SystemEvents_DisplaySettingsChanged);
+                if (File.Exists(Application.StartupPath + "\\Config.ini"))
+                {
+                    var Config = new IniFile(Application.StartupPath + "\\Config.ini");
+                    id = Config.Read("ID", "Config");
+                    cookie = Config.Read("Cookie", "Config");
+                    this.Size = new Size(Convert.ToInt32(Config.Read("Width", "Config")), Convert.ToInt32(Config.Read("Height", "Config")));
+                    position = Config.Read("Position", "Config");
+                    xOffset = Config.Read("XOffset", "Config");
+                    yOffset = Config.Read("YOffset", "Config");
+                    int xOs = Convert.ToInt32(xOffset), yOs = Convert.ToInt32(yOffset);
+                    int resWidth = Screen.PrimaryScreen.Bounds.Width, resHeight = Screen.PrimaryScreen.Bounds.Height;
+                    switch (position)
+                    {
+                        case "UpperLeft":
+                            this.Left = xOs;
+                            this.Top = yOs;
+                            break;
+                        case "UpperRight":
+                            this.Left = resWidth - this.Size.Width - xOs;
+                            this.Top = yOs;
+                            break;
+                        case "LowerLeft":
+                            this.Left = xOs;
+                            this.Top = resHeight - this.Size.Height - yOs;
+                            break;
+                        case "LowerRight":
+                            this.Left = resWidth - this.Size.Width - xOs;
+                            this.Top = resHeight - this.Size.Height - yOs;
+                            break;
+                        default:
+                            MessageBox.Show("Unknown position type '" + position + "', the supported positions are 'UpperLeft', 'UpperRight', 'LowerLeft' or 'LowerRight'", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Application.Exit();
+                            break;
+                    }
+                    try
+                    {
+                        this.Font = new System.Drawing.Font(Config.Read("FontName", "Config"), Convert.ToSingle(Convert.ToInt32(Config.Read("FontSize", "Config"))));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Cannot load the given font with the font name '" + Config.Read("FontName", "Config") + "' and size " + Config.Read("FontSize", "Config"), "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Application.Exit();
+                    }
+                    try
+                    {
+                        label1.ForeColor = Color.FromName(Config.Read("NameColor", "Config"));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Unsupported color name '" + Config.Read("NameColor", "Config") + "' in NameColor", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Application.Exit();
+                    }
+                    try
+                    {
+                        label2.ForeColor = Color.FromName(Config.Read("StatusColor", "Config"));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Unsupported color name '" + Config.Read("StatusColor", "Config") + "' in StatusColor", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Application.Exit();
+                    }
+                    try
+                    {
+                        this.BackColor = Color.FromName(Config.Read("TransparencyKey", "Config"));
+                        this.TransparencyKey = Color.FromName(Config.Read("TransparencyKey", "Config"));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Unsupported color name '" + Config.Read("TransparencyKey", "Config") + "' in TransparencyKey", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Application.Exit();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Cannot find the config file!", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Application.Exit();
+                }
+                System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)(768 | 3072);
+                GetInformation();
+                SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
+                tableLayoutPanel1.ColumnStyles[0].Width = pictureBox1.Width + 8;
+                this.WindowState = FormWindowState.Normal;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                notifyIcon1.ShowBalloonTip(5000);
             }
-            System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)(768 | 3072);
-            GetInformation();
-            SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
-            tableLayoutPanel1.ColumnStyles[0].Width = pictureBox1.Width + 8;
-            this.WindowState = FormWindowState.Normal;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            notifyIcon1.ShowBalloonTip(5000);
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
