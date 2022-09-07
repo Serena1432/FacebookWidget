@@ -39,16 +39,34 @@ namespace FacebookWidget
         private const UInt32 SWP_NOMOVE = 0x0002;
         private const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        private static extern Int32 GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct RECT
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern bool GetWindowRect(IntPtr hWnd, ref RECT Rect);
+
         string id, cookie, position, xOffset, yOffset, response, msgNum = "0";
-        int phase = 1;
+        int phase = 1, boxWidth = 0, boxHeight = 0;
         bool retrievalError = false;
 
         void SystemEvents_DisplaySettingsChanged(object sender, EventArgs e)
@@ -293,6 +311,8 @@ namespace FacebookWidget
                 this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
                 notifyIcon1.ShowBalloonTip(5000);
             }
+            boxWidth = this.Size.Width;
+            boxHeight = this.Size.Height;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -400,6 +420,29 @@ namespace FacebookWidget
         private void tableLayoutPanel2_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            IntPtr handle = GetForegroundWindow();
+            if (handle != null)
+            {
+                RECT Rect = new RECT();
+                if (GetWindowRect(handle, ref Rect))
+                {
+                    int width = Rect.right - Rect.left, height = Rect.bottom - Rect.top;
+                    if (width == Screen.PrimaryScreen.Bounds.Width && height >= Screen.PrimaryScreen.Bounds.Height - boxHeight)
+                    {
+                        timer2.Enabled = false;
+                        this.Size = new Size(0, 0);
+                    }
+                    else
+                    {
+                        this.Size = new Size(boxWidth, boxHeight);
+                        timer2.Enabled = true;
+                    }
+                }
+            }
         }
     }
 }
