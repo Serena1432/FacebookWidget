@@ -433,8 +433,19 @@ namespace FacebookWidget
                     int width = Rect.right - Rect.left, height = Rect.bottom - Rect.top;
                     if (width == Screen.PrimaryScreen.Bounds.Width && height >= Screen.PrimaryScreen.Bounds.Height - boxHeight)
                     {
-                        timer2.Enabled = false;
-                        this.Size = new Size(0, 0);
+                        uint pid;
+                        GetWindowThreadProcessId(handle, out pid);
+                        System.Diagnostics.Process proc = System.Diagnostics.Process.GetProcessById(Convert.ToInt32(pid));
+                        if (proc.ProcessName != "explorer")
+                        {
+                            timer2.Enabled = false;
+                            this.Size = new Size(0, 0);
+                        }
+                        else
+                        {
+                            this.Size = new Size(boxWidth, boxHeight);
+                            timer2.Enabled = true;
+                        }
                     }
                     else
                     {
