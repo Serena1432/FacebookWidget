@@ -106,29 +106,7 @@ namespace FacebookWidget
                     html.LoadHtml(s);
                     if (!String.IsNullOrEmpty(cookie))
                     {
-                        var avatar = "";
-                        try
-                        {
-                            avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/a/img").Attributes["src"].Value.Replace("&amp;", "&");
-                        }
-                        catch
-                        {
-                            try
-                            {
-                                avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/a/div/div/img").Attributes["src"].Value.Replace("&amp;", "&");
-                            }
-                            catch
-                            {
-                                try
-                                {
-                                    avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/div/a/img").Attributes["src"].Value.Replace("&amp;", "&");
-                                }
-                                catch
-                                {
-                                    avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]/div/div/div/div/img").Attributes["src"].Value.Replace("&amp;", "&");
-                                }
-                            }
-                        }
+                        var avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]").SelectSingleNode("//img[contains(@alt, 'profile picture')]").Attributes["src"].Value.Replace("&amp;", "&");
                         pictureBox1.Load(avatar);
                         var name = html.DocumentNode.SelectSingleNode("//span/div/span/strong").InnerText;
                         if (name.Contains("(")) name = name.Substring(0, name.IndexOf('(') - 1);
