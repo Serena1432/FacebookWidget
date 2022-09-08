@@ -29,9 +29,11 @@ FontName=
 FontSize=
 NameColor=
 StatusColor=
+OnlineStatusColor=
 Width=
 Height=
 TransparencyKey=
+AdditionalStyle=
 ```
 
 | Property | Type | Description |
@@ -45,9 +47,11 @@ TransparencyKey=
 | `FontSize` | `int` | The font size of the widget (as `point/pt`) |
 | `NameColor` | `string` | The color of the Display Name text section. You can get the color names from [this website](http://www.flounder.com/csharp_color_table.htm). |
 | `StatusColor` | `string` | The color of the Status text section. You can get the color names from [this website](http://www.flounder.com/csharp_color_table.htm). |
+| `OnlineStatusColor` | `string` | The additional color of the Status text section when the user is online. You can get the color names from [this website](http://www.flounder.com/csharp_color_table.htm). |
 | `Width` | `int` | The width of the widget box (as `pixel/px`). |
 | `Height` | `int` | The width of the widget box (as `pixel/px`). |
 | `TransparencyKey` | `string` | The transparency key color of the widget (for better font rendering). |
+| `AdditionalStyle` | `string` | The additional style of the texts. Supported additional styles are `Bold` or `Italic`. |
 
 If you don't want to configure this application yourself, there are some presets on the `Presets` folder of the pre-built application. Just copy one of them to the executable folder, rename it to `Config.ini` and edit the ID and cookie of that file.
 

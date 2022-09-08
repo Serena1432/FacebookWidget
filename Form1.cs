@@ -146,6 +146,19 @@ namespace FacebookWidget
                         {
                             label2.Text = "Offline";
                         }
+                        IniFile Config = new IniFile(Application.StartupPath + "\\Config.ini");
+                        if (label2.Text == "Online")
+                        {
+                            try
+                            {
+                                if (!String.IsNullOrEmpty(Config.Read("OnlineStatusColor", "Config"))) label2.ForeColor = Color.FromName(Config.Read("OnlineStatusColor", "Config"));
+                            }
+                            catch
+                            {
+                                MessageBox.Show("Unsupported color name '" + Config.Read("OnlineStatusColor", "Config") + "' in OnlineStatusColor", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                        else label2.ForeColor = Color.FromName(Config.Read("StatusColor", "Config"));
                     }
                     else
                     {
@@ -296,6 +309,23 @@ namespace FacebookWidget
                     {
                         MessageBox.Show("Unsupported color name '" + Config.Read("TransparencyKey", "Config") + "' in TransparencyKey", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Application.Exit();
+                    }
+                    if (!String.IsNullOrEmpty(Config.Read("AdditionalStyle", "Config")))
+                    {
+                        switch (Config.Read("AdditionalStyle", "Config"))
+                        {
+                            case "Bold":
+                                label1.Font = new Font(label1.Font.Name, label1.Font.Size, FontStyle.Bold);
+                                label2.Font = new Font(label2.Font.Name, label2.Font.Size, FontStyle.Bold);
+                                break;
+                            case "Italic":
+                                label1.Font = new Font(label1.Font.Name, label1.Font.Size, FontStyle.Italic);
+                                label2.Font = new Font(label2.Font.Name, label2.Font.Size, FontStyle.Italic);
+                                break;
+                            default:
+                                MessageBox.Show("Unknown style '" + Config.Read("AdditionalStyle", "Config") + "', the supported styles are 'Bold' or 'Italic'", "FacebookWidget", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                break;
+                        }
                     }
                 }
                 else
