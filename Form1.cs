@@ -455,5 +455,34 @@ namespace FacebookWidget
                 }
             }
         }
+
+        void HandleMouseDown(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            HandleMouseDown(e);
+        }
+
+        private void label1_MouseDown(object sender, MouseEventArgs e)
+        {
+            HandleMouseDown(e);
+        }
+
+        private void label2_MouseDown(object sender, MouseEventArgs e)
+        {
+            HandleMouseDown(e);
+        }
+
+        private void tableLayoutPanel1_MouseDown(object sender, MouseEventArgs e)
+        {
+            HandleMouseDown(e);
+        }
     }
 }

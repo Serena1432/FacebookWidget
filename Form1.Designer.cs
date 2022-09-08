@@ -65,6 +65,7 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(228, 40);
             this.tableLayoutPanel1.TabIndex = 3;
             this.tableLayoutPanel1.Click += new System.EventHandler(this.tableLayoutPanel1_Click);
+            this.tableLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tableLayoutPanel1_MouseDown);
             this.tableLayoutPanel1.MouseLeave += new System.EventHandler(this.tableLayoutPanel1_MouseLeave);
             this.tableLayoutPanel1.MouseHover += new System.EventHandler(this.tableLayoutPanel1_MouseHover);
             // 
@@ -80,6 +81,7 @@
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
             this.pictureBox1.MouseHover += new System.EventHandler(this.pictureBox1_MouseHover);
             // 
@@ -114,6 +116,7 @@
             this.label1.TabIndex = 1;
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label1_MouseDown);
             this.label1.MouseLeave += new System.EventHandler(this.label1_MouseLeave);
             this.label1.MouseHover += new System.EventHandler(this.label1_MouseHover);
             // 
@@ -128,6 +131,7 @@
             this.label2.TabIndex = 3;
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label2.Click += new System.EventHandler(this.label2_Click);
+            this.label2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label2_MouseDown);
             this.label2.MouseLeave += new System.EventHandler(this.label2_MouseLeave);
             this.label2.MouseHover += new System.EventHandler(this.label2_MouseHover);
             // 
