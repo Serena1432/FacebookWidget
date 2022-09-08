@@ -306,7 +306,7 @@ namespace FacebookWidget
                 System.Net.ServicePointManager.SecurityProtocol = (System.Net.SecurityProtocolType)(768 | 3072);
                 GetInformation();
                 SetWindowPos(this.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
-                tableLayoutPanel1.ColumnStyles[0].Width = pictureBox1.Width + 8;
+                tableLayoutPanel1.ColumnStyles[0].Width = pictureBox1.Height + 8;
                 this.WindowState = FormWindowState.Normal;
                 this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
                 notifyIcon1.ShowBalloonTip(5000);
