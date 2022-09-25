@@ -102,6 +102,7 @@ namespace FacebookWidget
         {
             try
             {
+                IniFile Config = new IniFile(Application.StartupPath + "\\Config.ini");
                 WebClient client = new WebClient();
                 client.Headers.Add("accept-language", "en;q=0.9,vi;q=0.8,fr-FR;q=0.7,fr;q=0.6,en-US;q=0.5");
                 client.Headers.Add("cache-control", "max-age=0");
@@ -146,7 +147,6 @@ namespace FacebookWidget
                         {
                             label2.Text = "Offline";
                         }
-                        IniFile Config = new IniFile(Application.StartupPath + "\\Config.ini");
                         if (label2.Text == "Online")
                         {
                             try
@@ -216,6 +216,10 @@ namespace FacebookWidget
                     data.Close();
                     reader.Close();
                     phase = 1;
+                }
+                if (Config.Read("CustomName", "Config") != null)
+                {
+                    label1.Text = Config.Read("CustomName", "Config").ToString();
                 }
             }
             catch (Exception ex)
@@ -368,7 +372,7 @@ namespace FacebookWidget
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+            Click();
         }
 
         void Hover()
@@ -432,24 +436,37 @@ namespace FacebookWidget
             Leave();
         }
 
+        void Click()
+        {
+            IniFile Config = new IniFile(Application.StartupPath + "\\Config.ini");
+            if (Config.Read("CustomClickLink") == null)
+            {
+                System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+            }
+            else
+            {
+                System.Diagnostics.Process.Start(Config.Read("CustomClickLink").Replace("$id", id));
+            }
+        }
+
         private void label1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+            Click();
         }
 
         private void label2_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+            Click();
         }
 
         private void tableLayoutPanel1_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+            Click();
         }
 
         private void tableLayoutPanel2_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.facebook.com/" + id);
+            Click();
         }
 
         private void timer3_Tick(object sender, EventArgs e)
