@@ -217,7 +217,7 @@ namespace FacebookWidget
                     reader.Close();
                     phase = 1;
                 }
-                if (Config.Read("CustomName", "Config") != null)
+                if (!String.IsNullOrEmpty(Config.Read("CustomName", "Config")))
                 {
                     label1.Text = Config.Read("CustomName", "Config").ToString();
                 }
