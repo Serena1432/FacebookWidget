@@ -125,8 +125,12 @@ namespace FacebookWidget
                     html.LoadHtml(s);
                     if (!String.IsNullOrEmpty(cookie))
                     {
-                        var avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]").SelectSingleNode("//img[contains(@alt, 'profile picture')]").Attributes["src"].Value.Replace("&amp;", "&");
-                        pictureBox1.Load(avatar);
+                        if (String.IsNullOrEmpty(Config.Read("CustomImagePath", "Config")))
+                        {
+                            var avatar = html.DocumentNode.SelectSingleNode("//div[contains(@class, 'acw')]").SelectSingleNode("//img[contains(@alt, 'profile picture')]").Attributes["src"].Value.Replace("&amp;", "&");
+                            pictureBox1.Load(avatar);
+                        }
+                        else pictureBox1.Load(Config.Read("CustomImagePath", "Config"));
                         var name = html.DocumentNode.SelectSingleNode("//span/div/span/strong").InnerText;
                         if (name.Contains("(")) name = name.Substring(0, name.IndexOf('(') - 1);
                         if (name.IndexOf('(') - 1 > 0) label1.Text = name.Substring(0, name.IndexOf('(') - 1);
@@ -162,8 +166,12 @@ namespace FacebookWidget
                     }
                     else
                     {
-                        var avatar = html.DocumentNode.SelectSingleNode("//img[contains(@alt, 'profile')]").Attributes["src"].Value.Replace("&amp;", "&");
-                        pictureBox1.Load(avatar);
+                        if (String.IsNullOrEmpty(Config.Read("CustomImagePath", "Config")))
+                        {
+                            var avatar = html.DocumentNode.SelectSingleNode("//img[contains(@alt, 'profile')]").Attributes["src"].Value.Replace("&amp;", "&");
+                            pictureBox1.Load(avatar);
+                        }
+                        else pictureBox1.Load(Config.Read("CustomImagePath", "Config"));
                         var name = html.DocumentNode.SelectSingleNode("//div[@id='cover-name-root']").InnerText;
                         label1.Text = name;
                         label2.Text = "Active status unavailable";

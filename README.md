@@ -54,6 +54,7 @@ AdditionalStyle=
 | `AdditionalStyle` | `string` | The additional style of the texts. Supported additional styles are `Bold` or `Italic`. |
 | `CustomName` | `string` | The custom name to be displayed instead of the actual Facebook name. |
 | `CustomClickLink` | `string` | The custom link to be opened when clicking the widget, with `$id` as the user's Facebook ID. |
+| `CustomImagePath` | `string` | The custom image path of the widget (can be *an URL* or *a path to the image on your computer*). |
 
 If you don't want to configure this application yourself, there are some presets on the `Presets` folder of the pre-built application. Just copy one of them to the executable folder, rename it to `Config.ini` and edit the ID and cookie of that file.
 
